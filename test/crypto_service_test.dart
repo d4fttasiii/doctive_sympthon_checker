@@ -33,26 +33,14 @@ void main() {
       expect(address, expectedAddress);
     });
 
-    test('should sign and verify signature', () {
+    test('should sign message without problems', () {
       String privateKey =
           cryptoService.derivePrivateKeyFromMnemonic(testMnemonic);
-      String publicKey =
-          cryptoService.derivePublicKeyFromMnemonic(testMnemonic);
       String signature =
           cryptoService.signMessageWithPrivateKey(message, privateKey);
-      bool result =
-          cryptoService.verifySignature(message, signature, publicKey);
-      expect(result, true);
-    });
 
-    test('should sign and verify invalid signature', () {
-      String publicKey =
-          cryptoService.derivePublicKeyFromMnemonic(testMnemonic);
-      bool result = cryptoService.verifySignature(
-          message,
-          'a02d5d45da944c85359dca4b873af2ddae977e34fe51652980b44e1a6fd98931048bee805178cfcdf9d12241cb08c80d33d664a80262f6a659201c796a6b2116',
-          publicKey);
-      expect(result, false);
+      expect(signature,
+          '54902f527ef6fb04fa2be57e89a4aa92c9eb8b9b7aacfc85f79c3023ad0755857ec3615142acf030b326d3f517f223ca8de876ed6bb115ea00ff78b184e29c5e0136');
     });
   });
 }

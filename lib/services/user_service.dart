@@ -32,6 +32,27 @@ class UserService {
     await signIn();
   }
 
+  Future<bool> restore(String mnemonic) async {
+    try {
+      if (!_crypto.isValidMnemonic(mnemonic)) {
+        return false;
+      }
+
+      final privateKey = _crypto.derivePrivateKeyFromMnemonic(mnemonic);
+      final address = _crypto.deriveAddressFromMnemonic(mnemonic);
+      final messageResponse = await _api.generateSignInMessage(address);
+      final signature = _crypto.signMessageWithPrivateKey(
+          messageResponse.message, privateKey);
+      final signInResponse = await _api
+          .signIn(SignInDto(walletAddress: address, signature: signature));
+      await _secret.storeSecret('user_mnemonic', mnemonic);
+
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
   Future<UserDto> getProfile() async {
     return await _api.getProfile();
   }

@@ -3,7 +3,7 @@ class UserConversationDto {
   final int userId;
   final String conversationId;
   final DateTime createdAt;
-  final DateTime endedAt;
+  final DateTime? endedAt;
 
   UserConversationDto({
     required this.id,
@@ -19,7 +19,7 @@ class UserConversationDto {
       userId: json['userId'],
       conversationId: json['conversationId'],
       createdAt: DateTime.parse(json['createdAt']),
-      endedAt: DateTime.parse(json['endedAt']),
+      endedAt: json['endedAt'] != null ? DateTime.parse(json['endedAt']) : null,
     );
   }
 
@@ -28,6 +28,6 @@ class UserConversationDto {
         'userId': userId,
         'conversationId': conversationId,
         'createdAt': createdAt.toIso8601String(),
-        'endedAt': endedAt.toIso8601String(),
+        'endedAt': endedAt?.toIso8601String(),
       };
 }

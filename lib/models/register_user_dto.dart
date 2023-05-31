@@ -1,18 +1,18 @@
 class RegisterUserDto {
-  final String walletAddress;
+  final String? walletAddress;
   final String firstname;
   final String lastname;
   final String email;
-  final String message;
-  final String signature;
+  final String? message;
+  final String? signature;
 
   RegisterUserDto({
-    required this.walletAddress,
+    this.walletAddress,
     required this.firstname,
     required this.lastname,
     required this.email,
-    required this.message,
-    required this.signature,
+    this.message,
+    this.signature,
   });
 
   factory RegisterUserDto.fromJson(Map<String, dynamic> json) {

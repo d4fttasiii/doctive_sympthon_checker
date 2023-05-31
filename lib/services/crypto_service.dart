@@ -1,13 +1,27 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bip32/bip32.dart' as bip32;
-import 'package:hashlib/hashlib.dart';
-import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'dart:typed_data';
 import 'package:hex/hex.dart';
+import 'package:ethereum_addresses/ethereum_addresses.dart';
+import 'package:web3dart/crypto.dart';
+import 'package:web3dart/src/utils/typed_data.dart';
+import 'package:web3dart/web3dart.dart';
+
+class MsgSignature {
+  MsgSignature(this.r, this.s, this.v);
+  final BigInt r;
+  final BigInt s;
+  final int v;
+}
 
 class CryptoService {
   String generateMnemonic() {
     return bip39.generateMnemonic();
+  }
+
+  bool isValidMnemonic(String mnemonic, {int requiredLength = 12}) {
+    return bip39.validateMnemonic(mnemonic) &&
+        mnemonic.split(' ').length == requiredLength;
   }
 
   String derivePrivateKeyFromMnemonic(String mnemonic) {
@@ -25,7 +39,7 @@ class CryptoService {
     return ethereumAddressFromPublicKey(privateKey.publicKey);
   }
 
-  String derivePublicKeyFromMnemonic(String mnemonic) {    
+  String derivePublicKeyFromMnemonic(String mnemonic) {
     String pk = derivePrivateKeyFromMnemonic(mnemonic);
     bip32.BIP32 privateKey = bip32.BIP32.fromBase58(pk);
 
@@ -36,20 +50,13 @@ class CryptoService {
     String message,
     String privateKey,
   ) {
-    bip32.BIP32 signer = bip32.BIP32.fromBase58(privateKey);
-    HashDigest hash = keccak256.string(message);
-    var signature = signer.sign(hash.bytes);
+    final messageHash = keccakUtf8(message);
+    bip32.BIP32 pk = bip32.BIP32.fromBase58(privateKey);
+    final signer = EthPrivateKey.fromInt(bytesToUnsignedInt(pk.privateKey!));
+    final signature =
+        signer.signPersonalMessageToUint8List(messageHash, chainId: 137);
 
     return HEX.encode(signature);
-  }
-
-  bool verifySignature(String message, String signature, String publicKeyHex){
-    Uint8List pubBytes = Uint8List.fromList(HEX.decode(publicKeyHex));
-    bip32.BIP32 pubKey = bip32.BIP32.fromPublicKey(pubBytes, Uint8List.fromList([60]));
-    HashDigest hash = keccak256.string(message);
-    bool result = pubKey.verify(hash.bytes, Uint8List.fromList(HEX.decode(signature)));
-
-    return result;
   }
 
   String stripHexPrefix(String input) =>

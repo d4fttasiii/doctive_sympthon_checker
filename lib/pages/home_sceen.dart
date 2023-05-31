@@ -1,6 +1,8 @@
 import 'package:doctive_sympthon_checker/pages/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'restore_account_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,9 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     OutlinedButton(
                       onPressed: () {
-                        // Navigate to Restore Page
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                RestoreAccountPage()));
                       },
                       style: OutlinedButton.styleFrom(
                         primary: Colors.white,

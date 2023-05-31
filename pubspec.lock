@@ -113,6 +113,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  eip1559:
+    dependency: transitive
+    description:
+      name: eip1559
+      sha256: de454d6321bd753eb79116e9ec4f8df20895c2e97f9a3839a032f3a728985516
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.1"
+  eip55:
+    dependency: transitive
+    description:
+      name: eip55
+      sha256: "213a9b86add87a5216328e8494b0ab836e401210c4d55eb5e521bd39e39169e1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   ethereum_addresses:
     dependency: "direct dev"
     description:
@@ -142,6 +158,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: "950e77c2bbe1692bc0874fc7fb491b96a4dc340457f4ea1641443d0a6c1ea360"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.15"
   flutter_secure_storage:
     dependency: "direct dev"
     description:
@@ -208,22 +232,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.6.0"
-  hashlib:
-    dependency: "direct dev"
-    description:
-      name: hashlib
-      sha256: "520c3e1e25a8cf49b79d450c439935d689eadc397f6d748335298e8f078084ff"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.4"
-  hashlib_codecs:
-    dependency: transitive
-    description:
-      name: hashlib_codecs
-      sha256: "0791a50d36014ec11877980e653a1874c9551b76bc5bec9806850a496fe010ff"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0"
   hex:
     dependency: transitive
     description:
@@ -232,6 +240,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.6"
   http_parser:
     dependency: transitive
     description:
@@ -240,6 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   js:
     dependency: transitive
     description:
@@ -248,6 +272,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
+  json_rpc_2:
+    dependency: transitive
+    description:
+      name: json_rpc_2
+      sha256: "5e469bffa23899edacb7b22787780068d650b106a21c76db3c49218ab7ca447e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   lints:
     dependency: transitive
     description:
@@ -256,6 +288,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  local_auth:
+    dependency: "direct dev"
+    description:
+      name: local_auth
+      sha256: "0cf238be2bfa51a6c9e7e9cfc11c05ea39f2a3a4d3e5bb255d0ebc917da24401"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.6"
+  local_auth_android:
+    dependency: transitive
+    description:
+      name: local_auth_android
+      sha256: "91824b34c013b9a03dfb754ac2b15329e1c553b8fd18f6d1baffebb72ceff226"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.30"
+  local_auth_ios:
+    dependency: transitive
+    description:
+      name: local_auth_ios
+      sha256: edc2977c5145492f3451db9507a2f2f284ee4f408950b3e16670838726761940
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.3"
+  local_auth_platform_interface:
+    dependency: transitive
+    description:
+      name: local_auth_platform_interface
+      sha256: "9e160d59ef0743e35f1b50f4fb84dc64f55676b1b8071e319ef35e7f3bc13367"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
+  local_auth_windows:
+    dependency: transitive
+    description:
+      name: local_auth_windows
+      sha256: "19323b75ab781d5362dbb15dcb7e0916d2431c7a6dbdda016ec9708689877f73"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   matcher:
     dependency: transitive
     description:
@@ -304,6 +376,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.3"
+  sec:
+    dependency: transitive
+    description:
+      name: sec
+      sha256: "8bbd56df884502192a441b5f5d667265498f2f8728a282beccd9db79e215f379"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -333,6 +413,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  stream_transform:
+    dependency: transitive
+    description:
+      name: stream_transform
+      sha256: "14a00e794c7c11aa145a170587321aedce29769c08d7f58b1d141da75e3b1c6f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   string_scanner:
     dependency: transitive
     description:
@@ -373,6 +461,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
@@ -381,6 +477,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  wallet:
+    dependency: transitive
+    description:
+      name: wallet
+      sha256: "569c91c2af13a9e1119c001f9c09218eccf3f383eb8d15ba13a5b558010c1bc0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12+1"
+  web3dart:
+    dependency: "direct dev"
+    description:
+      name: web3dart
+      sha256: "0b96223a6b284e3146e65dc842ded139eca68a85c4ab79c5ba1a73284927d3cd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.6.1"
 sdks:
   dart: ">=3.0.2 <4.0.0"
-  flutter: ">=2.0.0"
+  flutter: ">=3.3.0"

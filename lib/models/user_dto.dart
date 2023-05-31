@@ -5,14 +5,14 @@ class UserDto {
   final String lastname;
   final String email;
   final DateTime createdAt;
-  final DateTime modifiedAt;
+  final DateTime? modifiedAt;
   final bool lockEnabled;
-  final int loginAttempts;
-  final DateTime lockedUntil;
-  final String refreshToken;
+  final int? loginAttempts;
+  final DateTime? lockedUntil;
+  final String? refreshToken;
   final bool isEmailVerified;
-  final String emailVerificationToken;
-  final DateTime emailVerifiedAt;
+  final String? emailVerificationToken;
+  final DateTime? emailVerifiedAt;
 
   UserDto({
     required this.id,
@@ -21,14 +21,14 @@ class UserDto {
     required this.lastname,
     required this.email,
     required this.createdAt,
-    required this.modifiedAt,
+    this.modifiedAt,
     required this.lockEnabled,
-    required this.loginAttempts,
-    required this.lockedUntil,
-    required this.refreshToken,
+    this.loginAttempts,
+    this.lockedUntil,
+    this.refreshToken,
     required this.isEmailVerified,
-    required this.emailVerificationToken,
-    required this.emailVerifiedAt,
+    this.emailVerificationToken,
+    this.emailVerifiedAt,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) {
@@ -39,14 +39,20 @@ class UserDto {
       lastname: json['lastname'],
       email: json['email'],
       createdAt: DateTime.parse(json['createdAt']),
-      modifiedAt: DateTime.parse(json['modifiedAt']),
-      lockEnabled: json['lockEnabled'],
-      loginAttempts: json['loginAttempts'],
-      lockedUntil: DateTime.parse(json['lockedUntil']),
+      modifiedAt: json['modifiedAt'] != null
+          ? DateTime.parse(json['modifiedAt'])
+          : null,
+      lockEnabled: json['lockEnabled'] ?? false,
+      loginAttempts: json['loginAttempts'] ?? 0,
+      lockedUntil: json['lockedUntil'] != null
+          ? DateTime.parse(json['lockedUntil'])
+          : null,
       refreshToken: json['refreshToken'],
-      isEmailVerified: json['isEmailVerified'],
+      isEmailVerified: json['isEmailVerified'] ?? false,
       emailVerificationToken: json['emailVerificationToken'],
-      emailVerifiedAt: DateTime.parse(json['emailVerifiedAt']),
+      emailVerifiedAt: json['emailVerifiedAt'] != null
+          ? DateTime.parse(json['emailVerifiedAt'])
+          : null,
     );
   }
 
@@ -57,13 +63,13 @@ class UserDto {
         'lastname': lastname,
         'email': email,
         'createdAt': createdAt.toIso8601String(),
-        'modifiedAt': modifiedAt.toIso8601String(),
+        'modifiedAt': modifiedAt?.toIso8601String(),
         'lockEnabled': lockEnabled,
         'loginAttempts': loginAttempts,
-        'lockedUntil': lockedUntil.toIso8601String(),
+        'lockedUntil': lockedUntil?.toIso8601String(),
         'refreshToken': refreshToken,
         'isEmailVerified': isEmailVerified,
         'emailVerificationToken': emailVerificationToken,
-        'emailVerifiedAt': emailVerifiedAt.toIso8601String(),
+        'emailVerifiedAt': emailVerifiedAt?.toIso8601String(),
       };
 }

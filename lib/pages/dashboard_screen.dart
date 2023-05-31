@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'profile_screen.dart';
+
 class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,9 @@ class DashboardPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/profile'),
+              onPressed: () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => ProfilePage())),
               child: const Text('Profile Page'),
             ),
             const SizedBox(height: 16),
