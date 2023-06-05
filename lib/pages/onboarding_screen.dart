@@ -9,6 +9,8 @@ import 'dart:async';
 import '../widgets/mnemonic_widget.dart';
 
 class OnBoardingScreen extends StatefulWidget {
+  static const route = '/onboarding';
+
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
 }
@@ -68,6 +70,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
         walletAddress: '',
       ),
     );
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (BuildContext context) => DashboardScreen()));
   }
 
   @override
@@ -95,7 +99,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Color(0xFF488051), Color(0xFF8aad8c), Color(0xFFABC5A8)],
+            colors: [Color(0xFF488051), Color(0xFFABC5A8)],
           ),
         ),
         child: PageView(
@@ -320,8 +324,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
                     _mnemonicVerificationControllers[2]?.text ==
                         _mnemonicWords[8]) {
                   await submitRegistrationForm();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (BuildContext context) => DashboardPage()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(

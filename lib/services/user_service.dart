@@ -2,14 +2,17 @@ import 'package:doctive_sympthon_checker/main.dart';
 import 'package:doctive_sympthon_checker/models/register_user_dto.dart';
 import 'package:doctive_sympthon_checker/models/sign_in_dto.dart';
 import 'package:doctive_sympthon_checker/models/user_dto.dart';
+import 'package:doctive_sympthon_checker/models/user_update_dto.dart';
 import 'package:doctive_sympthon_checker/services/api_service.dart';
 import 'package:doctive_sympthon_checker/services/crypto_service.dart';
+import 'package:doctive_sympthon_checker/services/local_auth_service.dart';
 import 'package:doctive_sympthon_checker/services/secret_service.dart';
 
 class UserService {
   final _api = resolver<ApiService>();
   final _crypto = resolver<CryptoService>();
   final _secret = resolver<SecretService>();
+  final _localAuth = resolver<LocalAuthService>();
 
   Future<void> register(String mnemonic, RegisterUserDto dto) async {
     final regMsgResponse = await _api.getRegistrationMessage();
@@ -53,8 +56,12 @@ class UserService {
     }
   }
 
-  Future<UserDto> getProfile() async {
-    return await _api.getProfile();
+  Future<bool> hasAccount() async {
+    return await _secret.containsKeyInSecureData('user_mnemonic');
+  }
+
+  Future<bool> authenticate() async {
+    return await _localAuth.authenticate() || true;
   }
 
   Future<void> signIn() async {
@@ -67,5 +74,22 @@ class UserService {
         _crypto.signMessageWithPrivateKey(messageResponse.message, privateKey);
     final signInResponse = await _api
         .signIn(SignInDto(walletAddress: address, signature: signature));
+  }
+
+  Future<UserDto> getProfile() async {
+    return await _api.getProfile();
+  }
+
+  Future<void> updateProfile(UserUpdateDto dto) async {
+    await _api.updateProfile(dto);
+  }
+
+  Future<void> requestEmailVerification() async {
+    final user = await getProfile();
+    if (user.isEmailVerified) {
+      throw Exception('Email is already verified');
+    }
+
+    await _api.getEmailVerificationToken();
   }
 }

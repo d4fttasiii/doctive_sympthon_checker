@@ -23,28 +23,42 @@ class ApiService {
       connectTimeout: const Duration(milliseconds: 10000),
       receiveTimeout: const Duration(milliseconds: 5000),
     ));
-    // dio.interceptors.add(InterceptorsWrapper(
-    //   onRequest:
-    //       (RequestOptions options, RequestInterceptorHandler handler) async {
-    //     return handler.next(options);
-    //   },
-    //   onResponse:
-    //       (Response response, ResponseInterceptorHandler handler) async {
-    //     return handler.next(response);
-    //   },
-    //   onError: (DioError error, ErrorInterceptorHandler handler) async {
-    //     if (error.response?.statusCode == 401 ||
-    //         error.response?.statusCode == 403) {
-    //       final RequestOptions options =
-    //           error.response?.requestOptions ?? RequestOptions(path: "");
-    //       final authResponse = await refresh();
-    //       cookieJar.saveFromResponse(Uri(host: host, scheme: protocol), []);
-    //       return dio.request(options.path, options: options).then((_) => {});
-    //     }
-    //     return handler.next(error);
-    //   },
-    // ));
     _dio.interceptors.add(CookieManager(CookieJar()));
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onError: (DioError e, ErrorInterceptorHandler handler) async {
+          if (e.response?.statusCode! == 401 || e.response?.statusCode == 403) {
+            try {
+              await refresh();
+            } catch (err) {
+              handler.reject(e);
+              return;
+            }
+
+            // Repeat the request with the new token.
+            try {
+              return handler.resolve(await _dio.request<dynamic>(
+                e.requestOptions.path,
+                cancelToken: e.requestOptions.cancelToken,
+                data: e.requestOptions.data,
+                onReceiveProgress: e.requestOptions.onReceiveProgress,
+                onSendProgress: e.requestOptions.onSendProgress,
+                queryParameters: e.requestOptions.queryParameters,
+                options: Options(
+                  method: e.requestOptions.method,
+                  headers: e.requestOptions.headers,
+                  contentType: e.requestOptions.contentType,
+                ),
+              ));
+            } catch (err) {
+              return handler.next(e);
+            }
+          }
+
+          return handler.next(e);
+        },
+      ),
+    );
   }
 
   Future<SignableMessageDto> getRegistrationMessage() async {

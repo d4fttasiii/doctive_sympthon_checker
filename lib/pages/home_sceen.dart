@@ -1,9 +1,32 @@
-import 'package:doctive_sympthon_checker/pages/onboarding_screen.dart';
+import 'package:doctive_sympthon_checker/pages/login_screen.dart';
+import 'package:doctive_sympthon_checker/services/user_service.dart';
 import 'package:flutter/material.dart';
-
+import 'package:doctive_sympthon_checker/pages/onboarding_screen.dart';
+import '../main.dart';
 import 'restore_account_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  static const route = '/home';
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final _user = resolver<UserService>();
+
+  @override
+  void initState() {
+    super.initState();
+    _user.hasAccount().then((value) => {
+          if (value)
+            {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (BuildContext context) => LoginScreen()))
+            }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,16 +35,29 @@ class HomeScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Color(0xFF488051), Color(0xFF8aad8c), Color(0xFFABC5A8)],
+            colors: [Color(0xFF488051), Color(0xFFABC5A8)],
           ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Expanded(
+            Expanded(
               flex: 3,
               child: Center(
-                child: FlutterLogo(size: 150), // Replace with your logo
+                child: Container(
+                  height: 144, // Adjust as needed
+                  width: 144, // Adjust as needed
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(
+                        77), // Half of the width and height for a perfect circle
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/doctive_logo.png',
+                    ),
+                  ),
+                ),
               ),
             ),
             Expanded(
@@ -42,9 +78,7 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                OnBoardingScreen()));
+                        Navigator.pushNamed(context, OnBoardingScreen.route);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.white,
@@ -56,9 +90,8 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 20),
                     OutlinedButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                RestoreAccountPage()));
+                        Navigator.pushNamed(
+                            context, RestoreAccountScreen.route);
                       },
                       style: OutlinedButton.styleFrom(
                         primary: Colors.white,

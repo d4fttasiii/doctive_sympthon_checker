@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class RestoreAccountPage extends StatefulWidget {
+class RestoreAccountScreen extends StatefulWidget {
+  static const route = '/restore';
+
   @override
-  _RestoreAccountPageState createState() => _RestoreAccountPageState();
+  _RestoreAccountScreenState createState() => _RestoreAccountScreenState();
 }
 
-class _RestoreAccountPageState extends State<RestoreAccountPage> {
+class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   final _formKey = GlobalKey<FormState>();
   final _pageController = PageController();
   final List<TextEditingController> _controllers =
@@ -69,7 +71,6 @@ class _RestoreAccountPageState extends State<RestoreAccountPage> {
             end: Alignment.bottomLeft,
             colors: [
               Color(0xFF488051),
-              Color(0xFF8aad8c),
               Color(0xFFABC5A8),
             ],
           ),

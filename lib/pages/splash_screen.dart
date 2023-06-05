@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 2));
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     _animation = CurvedAnimation(
       parent: _animationController!,
       curve: Curves.easeIn,
@@ -26,9 +26,8 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController!.forward();
 
     Timer(
-        Duration(seconds: 4),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreen())));
+        const Duration(seconds: 4),
+        () => Navigator.pushNamed(context, HomeScreen.route));
   }
 
   @override
@@ -41,26 +40,25 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Color(0xFF488051), Color(0xFF8aad8c), Color(0xFFABC5A8)],
+            colors: [Color(0xFF488051), Color(0xFFABC5A8)],
           ),
         ),
-        child: Center(
-          child: FadeTransition(
-            opacity: _animation!,
-            child: Text(
-              'Doctive',
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+        child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Center(
+              child: FadeTransition(
+                opacity: _animation!,
+                child: Image.asset(
+                  'assets/doctive_full_logo.png', // Replace with the path to your image
+                  height: 100, // You can adjust size as needed
+                  // width: double.infinity, // You can adjust size as needed
+                ),
               ),
-            ),
-          ),
-        ),
+            )),
       ),
     );
   }
