@@ -1,3 +1,6 @@
+import 'package:doctive_sympthon_checker/constants/colors.dart';
+import 'package:doctive_sympthon_checker/pages/conversation_list_screen.dart';
+import 'package:doctive_sympthon_checker/pages/conversation_screen.dart';
 import 'package:doctive_sympthon_checker/pages/dashboard_screen.dart';
 import 'package:doctive_sympthon_checker/pages/email_verification_screen.dart';
 import 'package:doctive_sympthon_checker/pages/home_sceen.dart';
@@ -5,6 +8,8 @@ import 'package:doctive_sympthon_checker/pages/login_screen.dart';
 import 'package:doctive_sympthon_checker/pages/onboarding_screen.dart';
 import 'package:doctive_sympthon_checker/pages/profile_screen.dart';
 import 'package:doctive_sympthon_checker/pages/restore_account_screen.dart';
+import 'package:doctive_sympthon_checker/pages/settings_screen.dart';
+import 'package:doctive_sympthon_checker/pages/show_recovery_phrase.dart';
 import 'package:doctive_sympthon_checker/pages/splash_screen.dart';
 import 'package:doctive_sympthon_checker/services/api_service.dart';
 import 'package:doctive_sympthon_checker/services/crypto_service.dart';
@@ -43,6 +48,8 @@ class MyApp extends StatelessWidget {
       title: 'Doctive',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        primaryColor: AppColors.primaryColor,
+        // errorColor: ,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         useMaterial3: true,
       ),
@@ -56,6 +63,10 @@ class MyApp extends StatelessWidget {
         RestoreAccountScreen.route: (context) => RestoreAccountScreen(),
         ProfileScreen.route: (context) => ProfileScreen(),
         EmailVerificationScreen.route: (context) => EmailVerificationScreen(),
+        ConversationListScreen.route:(context) => ConversationListScreen(),
+        ConversationScreen.route:(context) => ConversationScreen(),
+        SettingsScreen.route:(context) => SettingsScreen(),
+        ShowRecoveryPhrase.route:(context) => ShowRecoveryPhrase(),
       },
     );
   }

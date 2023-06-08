@@ -56,12 +56,16 @@ class UserService {
     }
   }
 
+  Future<String> getMnemonic() async {
+    return await _secret.getSecret('user_mnemonic');
+  }
+
   Future<bool> hasAccount() async {
     return await _secret.containsKeyInSecureData('user_mnemonic');
   }
 
   Future<bool> authenticate() async {
-    return await _localAuth.authenticate() || true;
+    return await _localAuth.authenticate();
   }
 
   Future<void> signIn() async {

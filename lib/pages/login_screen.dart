@@ -10,12 +10,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _user = resolver<UserService>();
+  final _userService = resolver<UserService>();
 
   Future<bool> _authenticate() async {
     try {
-      if (await _user.authenticate()) {
-        await _user.signIn();
+      if (await _userService.authenticate()) {
+        await _userService.signIn();
         return true;
       }
       return false;
@@ -25,8 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _retry() async {
-    if (await _user.authenticate()) {
-      await _user.signIn();
+    if (await _userService.authenticate()) {
+      await _userService.signIn();
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => DashboardScreen()));
     }
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

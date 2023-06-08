@@ -1,3 +1,4 @@
+import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/main.dart';
 import 'package:doctive_sympthon_checker/models/register_user_dto.dart';
 import 'package:doctive_sympthon_checker/pages/dashboard_screen.dart';
@@ -35,6 +36,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
   late String _mnemonic;
   late List<String> _mnemonicWords = [];
   final _formKey = GlobalKey<FormState>();
+  Future<void>? _submitFuture;
 
   @override
   void initState() {
@@ -58,6 +60,23 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     });
   }
 
+  void _onSubmitPressed() {
+    if (_mnemonicVerificationControllers[0]?.text == _mnemonicWords[0] &&
+        _mnemonicVerificationControllers[1]?.text == _mnemonicWords[4] &&
+        _mnemonicVerificationControllers[2]?.text == _mnemonicWords[8]) {
+      setState(() {
+        _submitFuture = submitRegistrationForm();
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid secret words! Please try again.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
   Future<void> submitRegistrationForm() async {
     await _user.register(
       _mnemonic,
@@ -70,8 +89,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
         walletAddress: '',
       ),
     );
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (BuildContext context) => DashboardScreen()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => DashboardScreen()));
   }
 
   @override
@@ -316,29 +335,22 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
                 )),
             const SizedBox(height: 30),
             ElevatedButton(
-              onPressed: () async {
-                if (_mnemonicVerificationControllers[0]?.text ==
-                        _mnemonicWords[0] &&
-                    _mnemonicVerificationControllers[1]?.text ==
-                        _mnemonicWords[4] &&
-                    _mnemonicVerificationControllers[2]?.text ==
-                        _mnemonicWords[8]) {
-                  await submitRegistrationForm();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Invalid secret words! Please try again.'),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                }
-              },
+              onPressed: _onSubmitPressed,
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
-                onPrimary: const Color(0xFF488051),
+                onPrimary: AppColors.primaryColor,
                 minimumSize: const Size(double.infinity, 50),
               ),
-              child: const Text('Submit'),
+              child: FutureBuilder(
+                future: _submitFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return Text('Submit');
+                  }
+                },
+              ),
             ),
           ],
         ),

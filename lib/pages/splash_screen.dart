@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen>
                 opacity: _animation!,
                 child: Image.asset(
                   'assets/doctive_full_logo.png', // Replace with the path to your image
-                  height: 100, // You can adjust size as needed
+                  height: 200, // You can adjust size as needed
                   // width: double.infinity, // You can adjust size as needed
                 ),
               ),
