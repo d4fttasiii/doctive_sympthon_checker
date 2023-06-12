@@ -1,13 +1,11 @@
 import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/models/appointment.dart';
-import 'package:doctive_sympthon_checker/pages/conversation_screen.dart';
+import 'package:doctive_sympthon_checker/pages/conversation_list_screen.dart';
+import 'package:doctive_sympthon_checker/pages/profile_screen.dart';
 import 'package:doctive_sympthon_checker/pages/settings_screen.dart';
 import 'package:doctive_sympthon_checker/widgets/appointment_carousel.dart';
 import 'package:doctive_sympthon_checker/widgets/menu_item_widget.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/appointment_card_widget.dart';
-import 'profile_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   static const route = '/doctive';
@@ -73,7 +71,7 @@ class DashboardScreen extends StatelessWidget {
                               date: DateTime(2023, 9, 13),
                               location: 'Berlin'),
                         ],
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(context).size.width * 0.90,
                       ),
                       // AppointmentCard(
                       //     name: 'Allergy Testing',
@@ -92,7 +90,7 @@ class DashboardScreen extends StatelessWidget {
                   MenuItem(
                     icon: Icons.monitor_heart,
                     text: 'Sympthon Analysis',
-                    onTap: () => Navigator.pushNamed(context, ConversationScreen.route),
+                    onTap: () => Navigator.pushNamed(context, ConversationListScreen.route),
                   ),
                   const SizedBox(height: 10),
                   MenuItem(

@@ -1,3 +1,5 @@
+import 'user_personal_information.dart';
+
 class UserDto {
   final int id;
   final String walletAddress;
@@ -13,6 +15,7 @@ class UserDto {
   final bool isEmailVerified;
   final String? emailVerificationToken;
   final DateTime? emailVerifiedAt;
+  final UserPersonalInformation? personalInfo;
 
   UserDto({
     required this.id,
@@ -29,6 +32,7 @@ class UserDto {
     required this.isEmailVerified,
     this.emailVerificationToken,
     this.emailVerifiedAt,
+    this.personalInfo,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) {
@@ -53,6 +57,9 @@ class UserDto {
       emailVerifiedAt: json['emailVerifiedAt'] != null
           ? DateTime.parse(json['emailVerifiedAt'])
           : null,
+      personalInfo: json['personalInfo'] != null
+          ? UserPersonalInformation.fromJson(json['personalInfo'])
+          : null,
     );
   }
 
@@ -71,5 +78,6 @@ class UserDto {
         'isEmailVerified': isEmailVerified,
         'emailVerificationToken': emailVerificationToken,
         'emailVerifiedAt': emailVerifiedAt?.toIso8601String(),
+        'personalInfo': personalInfo?.toJson(),
       };
 }

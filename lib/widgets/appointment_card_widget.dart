@@ -13,6 +13,7 @@ class AppointmentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         child: Container(
+          width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topRight,

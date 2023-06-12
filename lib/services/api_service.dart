@@ -1,8 +1,10 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio/dio.dart';
+import 'package:doctive_sympthon_checker/models/user_personal_information.dart';
 
 import '../models/auth_response.dart';
+import '../models/close_conversation_dto.dart';
 import '../models/register_user_dto.dart';
 import '../models/send_message.dart';
 import '../models/sign_in_dto.dart';
@@ -118,6 +120,15 @@ class ApiService {
     return handleResponse<UserDto>(response, UserDto.fromJson)!;
   }
 
+  Future<UserDto> updateUserPersonalInformation(
+      UserPersonalInformation dto) async {
+    final response = await _dio.put(
+      '/api/v1/user/profile/personal-information',
+      data: dto.toJson(),
+    );
+    return handleResponse<UserDto>(response, UserDto.fromJson)!;
+  }
+
   Future<List<UserConversationDto>> getConversations() async {
     final response = await _dio.get('/api/v1/conversation');
     final result = handleResponse<List<UserConversationDto>>(
@@ -132,6 +143,11 @@ class ApiService {
   Future<void> startConversation() async {
     final response = await _dio.post('/api/v1/conversation');
     handleResponse<void>(response);
+  }
+
+  Future<bool> canStartConversation() async {
+    final response = await _dio.get<bool>('/api/v1/conversation/can-start');
+    return response.data ?? false;
   }
 
   Future<List<UserConversationMessageDto>> getMessages(String id) async {
@@ -149,6 +165,12 @@ class ApiService {
       '/api/v1/conversation/$id/messages',
       data: dto.toJson(),
     );
+    handleResponse<void>(response);
+  }
+
+  Future<void> closeConversation(String id, CloseConversationDto dto) async {
+    final response =
+        await _dio.delete('/api/v1/conversation/$id', data: dto.toJson());
     handleResponse<void>(response);
   }
 

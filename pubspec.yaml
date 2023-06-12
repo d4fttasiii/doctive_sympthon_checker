@@ -48,14 +48,15 @@ dev_dependencies:
   bip39: ^1.0.6
   bip32: ^2.0.0
   carousel_slider: ^4.2.1
-  cookie_jar: ^4.0.2  
+  cookie_jar: ^4.0.2
   dio: ^5.1.2
   dio_cookie_manager: ^3.0.0
   ethereum_addresses: ^1.0.2
   flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
   flutter_secure_storage: ^8.0.0  
-  get_it: ^7.6.0  
+  get_it: ^7.6.0
+  intl: ^0.18.1
   local_auth: ^2.1.6
   web3dart: ^2.6.1
 

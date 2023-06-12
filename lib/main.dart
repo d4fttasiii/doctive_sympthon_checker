@@ -2,6 +2,7 @@ import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/pages/conversation_list_screen.dart';
 import 'package:doctive_sympthon_checker/pages/conversation_screen.dart';
 import 'package:doctive_sympthon_checker/pages/dashboard_screen.dart';
+import 'package:doctive_sympthon_checker/pages/edit_profile_screen.dart';
 import 'package:doctive_sympthon_checker/pages/email_verification_screen.dart';
 import 'package:doctive_sympthon_checker/pages/home_sceen.dart';
 import 'package:doctive_sympthon_checker/pages/login_screen.dart';
@@ -17,7 +18,10 @@ import 'package:doctive_sympthon_checker/services/local_auth_service.dart';
 import 'package:doctive_sympthon_checker/services/secret_service.dart';
 import 'package:doctive_sympthon_checker/services/user_service.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get_it/get_it.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 GetIt resolver = GetIt.instance;
 
@@ -33,9 +37,17 @@ void setup() {
   resolver.registerLazySingleton<UserService>(() => UserService());
 }
 
+//
+// Configure basic settings for the whole application
+//
+void configure() {
+  Intl.defaultLocale = 'de_DE';
+}
+
 void main() {
   setup();
-  runApp(const MyApp());
+  configure();
+  initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -59,14 +71,15 @@ class MyApp extends StatelessWidget {
         HomeScreen.route: (context) => HomeScreen(),
         OnBoardingScreen.route: (context) => OnBoardingScreen(),
         DashboardScreen.route: (context) => DashboardScreen(),
-        '/login': (context) => LoginScreen(),
+        LoginScreen.route: (context) => LoginScreen(),
         RestoreAccountScreen.route: (context) => RestoreAccountScreen(),
         ProfileScreen.route: (context) => ProfileScreen(),
+        EditProfileScreen.route: (context) => EditProfileScreen(),
         EmailVerificationScreen.route: (context) => EmailVerificationScreen(),
-        ConversationListScreen.route:(context) => ConversationListScreen(),
-        ConversationScreen.route:(context) => ConversationScreen(),
-        SettingsScreen.route:(context) => SettingsScreen(),
-        ShowRecoveryPhrase.route:(context) => ShowRecoveryPhrase(),
+        ConversationListScreen.route: (context) => ConversationListScreen(),
+        ConversationScreen.route: (context) => ConversationScreen(),
+        SettingsScreen.route: (context) => SettingsScreen(),
+        ShowRecoveryPhrase.route: (context) => ShowRecoveryPhrase(),
       },
     );
   }
