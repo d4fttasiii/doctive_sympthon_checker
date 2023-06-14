@@ -1,5 +1,7 @@
+import 'package:intl/intl.dart';
+
 class UserPersonalInformation {
-  final String dateOfBirth;
+  final DateTime dateOfBirth;
   final String gender;
   final String countryCode;
   final String zipCode;
@@ -19,7 +21,7 @@ class UserPersonalInformation {
 
   factory UserPersonalInformation.fromJson(Map<String, dynamic> json) {
     return UserPersonalInformation(
-      dateOfBirth: json['dateOfBirth'],
+      dateOfBirth: DateFormat('yyyy-MM-dd').parse(json['dateOfBirth']),
       gender: json['gender'],
       countryCode: json['countryCode'],
       zipCode: json['zipCode'],
@@ -31,7 +33,7 @@ class UserPersonalInformation {
 
   Map<String, dynamic> toJson() {
     return {
-      'dateOfBirth': dateOfBirth,
+      'dateOfBirth': dateOfBirth.toIso8601String(),
       'gender': gender,
       'countryCode': countryCode,
       'zipCode': zipCode,

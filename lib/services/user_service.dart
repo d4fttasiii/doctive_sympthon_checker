@@ -2,7 +2,9 @@ import 'package:doctive_sympthon_checker/main.dart';
 import 'package:doctive_sympthon_checker/models/register_user_dto.dart';
 import 'package:doctive_sympthon_checker/models/sign_in_dto.dart';
 import 'package:doctive_sympthon_checker/models/user_dto.dart';
+import 'package:doctive_sympthon_checker/models/user_personal_information.dart';
 import 'package:doctive_sympthon_checker/models/user_update_dto.dart';
+import 'package:doctive_sympthon_checker/models/verify_email_dto.dart';
 import 'package:doctive_sympthon_checker/services/api_service.dart';
 import 'package:doctive_sympthon_checker/services/crypto_service.dart';
 import 'package:doctive_sympthon_checker/services/local_auth_service.dart';
@@ -88,6 +90,11 @@ class UserService {
     await _api.updateProfile(dto);
   }
 
+  Future<void> updateUserPersonalInformation(
+      UserPersonalInformation personalInformation) async {
+    await _api.updateUserPersonalInformation(personalInformation);
+  }
+
   Future<void> requestEmailVerification() async {
     final user = await getProfile();
     if (user.isEmailVerified) {
@@ -95,5 +102,15 @@ class UserService {
     }
 
     await _api.getEmailVerificationToken();
+  }
+
+  Future<void> verifyEmail(String token) async {
+    final mnemonic = await _secret.getSecret('user_mnemonic');
+    final privateKey = _crypto.derivePrivateKeyFromMnemonic(mnemonic);
+    final signature = _crypto.signMessageWithPrivateKey(token, privateKey);
+    await _api.verifyEmail(VerifyEmailDto(
+      token: token,
+      signature: signature,
+    ));
   }
 }

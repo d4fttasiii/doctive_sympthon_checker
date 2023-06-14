@@ -1,5 +1,6 @@
 import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/models/user_dto.dart';
+import 'package:doctive_sympthon_checker/pages/edit_presonal_information_screen.dart';
 import 'package:doctive_sympthon_checker/pages/edit_profile_screen.dart';
 import 'package:doctive_sympthon_checker/pages/email_verification_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _profileFuture = _fetchProfile();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (ModalRoute.of(context)?.settings.arguments != null) {
+      final args = ModalRoute.of(context)?.settings.arguments as Map;
+      if (args['showMessage'] == true) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(args['message']),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        });
+      }
+    }
   }
 
   Future<UserDto> _fetchProfile() async {
@@ -62,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       flex: 2,
                       child: Container(
                         child: Column(children: [
-                          SizedBox(height: 30.0),
+                          const SizedBox(height: 30.0),
                           Center(
                             child: Container(
                               height: 144, // Adjust as needed
@@ -81,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.0),
+                          const SizedBox(height: 30.0),
                           Text(
                             '${snapshot.data!.firstname} ${snapshot.data!.lastname}',
                             style: const TextStyle(
@@ -101,60 +120,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ListView(
                       children: [
                         ListTile(
-                          title: Text(
+                          title: const Text(
                             'Edit Profile',
                             style: TextStyle(
                               color: AppColors.primaryColor,
                             ),
                           ),
-                          subtitle: Text('Change your name or update your email address',
+                          subtitle: const Text(
+                              'Change your name or update your email address',
                               style: TextStyle(
                                   color: AppColors.tertiaryColor,
                                   fontSize: 12)),
-                          leading: Icon(
+                          leading: const Icon(
                             Icons.edit,
                             color: AppColors.primaryColor,
                           ),
                           onTap: () {
-                            Navigator.pushNamed(context, EditProfileScreen.route);
+                            Navigator.pushNamed(
+                                context, EditProfileScreen.route);
                           },
                         ),
                         ListTile(
-                          title: Text(
-                            'Personal Details',
+                          title: const Text(
+                            'Personal Information',
                             style: TextStyle(
                               color: AppColors.primaryColor,
                             ),
                           ),
-                          subtitle: Text('Update your personal information',
+                          subtitle: const Text('Update your personal information',
                               style: TextStyle(
                                   color: AppColors.tertiaryColor,
                                   fontSize: 12)),
-                          leading: Icon(
+                          leading: const Icon(
                             Icons.perm_identity_rounded,
                             color: AppColors.primaryColor,
                           ),
-                          // onTap: () {
-                          //   Navigator.pushNamed(context, ShowRecoveryPhrase.route);
-                          // },
+                          onTap: () {
+                            Navigator.pushNamed(context, EditPersonalInformationScreen.route);
+                          },
                         ),
                         ListTile(
-                          title: Text(
+                          title: const Text(
                             'Email Verification',
                             style: TextStyle(
                               color: AppColors.primaryColor,
                             ),
                           ),
-                          subtitle: Text('Verify your email address',
+                          subtitle: const Text('Verify your email address',
                               style: TextStyle(
                                   color: AppColors.tertiaryColor,
                                   fontSize: 12)),
-                          leading: Icon(
+                          leading: const Icon(
                             Icons.email,
                             color: AppColors.primaryColor,
                           ),
                           onTap: () {
-                            Navigator.pushNamed(context, EmailVerificationScreen.route);
+                            Navigator.pushNamed(
+                                context, EmailVerificationScreen.route);
                           },
                         ),
                       ],

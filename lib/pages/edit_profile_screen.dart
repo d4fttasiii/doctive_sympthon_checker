@@ -1,6 +1,7 @@
 import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/models/user_dto.dart';
 import 'package:doctive_sympthon_checker/models/user_update_dto.dart';
+import 'package:doctive_sympthon_checker/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
@@ -50,6 +51,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _onSubmitPressed() {
+    FocusScope.of(context).unfocus();
     if (_formKey.currentState!.validate()) {
       setState(() {
         _submitFuture = _submitForm();
@@ -69,6 +71,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
         email: _emailController.text));
+    Navigator.of(context).pushReplacementNamed(ProfileScreen.route, arguments: {
+      'message': 'Profile update successful!',
+      'showMessage': true,
+    });
   }
 
   @override

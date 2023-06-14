@@ -1,5 +1,6 @@
 import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/main.dart';
+import 'package:doctive_sympthon_checker/pages/profile_screen.dart';
 import 'package:doctive_sympthon_checker/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,10 +16,11 @@ class EmailVerificationScreen extends StatefulWidget {
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   final _userService = resolver<UserService>();
   final _formKey = GlobalKey<FormState>();
-  String? _token;
+  final TextEditingController _tokenController = TextEditingController();
+  Future<void>? _verifyFuture;
 
   resendToken() async {
-    // await _userService.requestEmailVerification();
+    await _userService.requestEmailVerification();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Email verification token sent!'),
@@ -27,26 +29,39 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     );
   }
 
-  verify() async {
-
+  Future<void> verify() async {
+    FocusScope.of(context).unfocus();
+    if (_tokenController.text.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Token must be 6 characters long.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      await _userService.verifyEmail(_tokenController.text);
+      Navigator.of(context).pushReplacementNamed(ProfileScreen.route, arguments: {
+        'message': 'Email verification successful!',
+        'showMessage': true,
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Email Verification'),
-      ),
-        body: Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [Color(0xFF488051), Color(0xFFABC5A8)],
+        appBar: AppBar(
+          title: const Text('Email Verification'),
         ),
-      ),
-      child: Column(
-          children: <Widget>[
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Color(0xFF488051), Color(0xFFABC5A8)],
+            ),
+          ),
+          child: Column(children: <Widget>[
             Expanded(
               flex: 1,
               child: Center(
@@ -97,6 +112,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                               ),
                               const SizedBox(height: 30),
                               TextFormField(
+                                controller: _tokenController,
                                 decoration: const InputDecoration(
                                   labelText: 'Enter verification token',
                                   labelStyle: TextStyle(color: Colors.white),
@@ -110,6 +126,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                     borderSide: BorderSide(color: Colors.white),
                                   ),
                                 ),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.digitsOnly
@@ -121,9 +141,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                     return 'Please enter a valid token';
                                   }
                                   return null;
-                                },
-                                onSaved: (value) {
-                                  _token = value;
                                 },
                               ),
                               Row(
@@ -152,24 +169,36 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                                 ],
                               ),
                               const SizedBox(height: 20),
-                              ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    _formKey.currentState!.save();
-                                    // Call API to verify the token
-                                  }
+                              FutureBuilder(
+                                future: _verifyFuture,
+                                builder: (context, snapshot) {
+                                  return ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          _verifyFuture = verify();
+                                        });
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.white,
+                                      onPrimary: const Color(0xFF488051),
+                                      minimumSize:
+                                          const Size(double.infinity, 50),
+                                    ),
+                                    child: snapshot.connectionState ==
+                                            ConnectionState.waiting
+                                        ? CircularProgressIndicator(
+                                            color: Color(0xFF488051),
+                                          )
+                                        : const Text('Verify'),
+                                  );
                                 },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                  onPrimary: const Color(0xFF488051),
-                                  minimumSize: const Size(double.infinity, 50),
-                                ),
-                                child: const Text('Verify'),
                               ),
                             ],
                           ),
                         ))))
           ]),
-    ));
+        ));
   }
 }

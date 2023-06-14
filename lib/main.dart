@@ -2,6 +2,7 @@ import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/pages/conversation_list_screen.dart';
 import 'package:doctive_sympthon_checker/pages/conversation_screen.dart';
 import 'package:doctive_sympthon_checker/pages/dashboard_screen.dart';
+import 'package:doctive_sympthon_checker/pages/edit_presonal_information_screen.dart';
 import 'package:doctive_sympthon_checker/pages/edit_profile_screen.dart';
 import 'package:doctive_sympthon_checker/pages/email_verification_screen.dart';
 import 'package:doctive_sympthon_checker/pages/home_sceen.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
         RestoreAccountScreen.route: (context) => RestoreAccountScreen(),
         ProfileScreen.route: (context) => ProfileScreen(),
         EditProfileScreen.route: (context) => EditProfileScreen(),
+        EditPersonalInformationScreen.route: (context) => EditPersonalInformationScreen(),
         EmailVerificationScreen.route: (context) => EmailVerificationScreen(),
         ConversationListScreen.route: (context) => ConversationListScreen(),
         ConversationScreen.route: (context) => ConversationScreen(),

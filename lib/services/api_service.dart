@@ -2,6 +2,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio/dio.dart';
 import 'package:doctive_sympthon_checker/models/user_personal_information.dart';
+import 'package:doctive_sympthon_checker/models/verify_email_dto.dart';
 
 import '../models/auth_response.dart';
 import '../models/close_conversation_dto.dart';
@@ -82,8 +83,11 @@ class ApiService {
     handleResponse<void>(response);
   }
 
-  Future<void> verifyEmail(String token) async {
-    final response = await _dio.post('/api/v1/user/verify-email/$token');
+  Future<void> verifyEmail(VerifyEmailDto dto) async {
+    final response = await _dio.post(
+      '/api/v1/user/verify-email',
+      data: dto.toJson(),
+    );
     handleResponse<void>(response);
   }
 
@@ -183,12 +187,16 @@ class ApiService {
       [T Function(Map<String, dynamic>)? fromJson]) {
     final statusCode = response.statusCode ?? -1;
     if (statusCode >= 200 && statusCode < 300) {
-      if (response.data == null || response.data.toString().isEmpty) {
-        throw Exception(
-            'No data returned by the operation ${response.requestOptions.uri}');
-      } else {
-        return fromJson != null ? fromJson(response.data) : null;
+      if (fromJson != null) {
+        if (response.data == null || response.data.toString().isEmpty) {
+          throw Exception(
+              'No data returned by the operation ${response.requestOptions.uri}');
+        } else {
+          return fromJson(response.data);
+        }
       }
+
+      return null;
     } else {
       throw Exception(
           'Failed to perform operation ${response.requestOptions.uri} with status code: ${response.statusCode}');
