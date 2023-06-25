@@ -1,9 +1,11 @@
+import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/pages/login_screen.dart';
 import 'package:doctive_sympthon_checker/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:doctive_sympthon_checker/pages/onboarding_screen.dart';
-import '../main.dart';
 import 'restore_account_screen.dart';
+
+import '../main.dart';
 
 class HomeScreen extends StatefulWidget {
   static const route = '/home';
@@ -35,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Color(0xFF488051), Color(0xFFABC5A8)],
+            colors: [AppColors.primaryColor, AppColors.tertiaryColor],
           ),
         ),
         child: Column(

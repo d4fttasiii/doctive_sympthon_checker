@@ -1,6 +1,7 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:dio/dio.dart';
+import 'package:doctive_sympthon_checker/models/start_conversation.dart';
 import 'package:doctive_sympthon_checker/models/user_personal_information.dart';
 import 'package:doctive_sympthon_checker/models/verify_email_dto.dart';
 
@@ -133,20 +134,30 @@ class ApiService {
     return handleResponse<UserDto>(response, UserDto.fromJson)!;
   }
 
-  Future<List<UserConversationDto>> getConversations() async {
-    final response = await _dio.get('/api/v1/conversation');
-    final result = handleResponse<List<UserConversationDto>>(
-      response,
-      (json) => (json as List)
-          .map((item) => UserConversationDto.fromJson(item))
-          .toList(),
-    );
-    return result ?? [];
+  Future<UserConversationDto> getConversation(int id) async {
+    final response = await _dio.get('/api/v1/conversation/$id');
+    return handleResponse<UserConversationDto>(
+        response, (json) => UserConversationDto.fromJson(json))!;
   }
 
-  Future<void> startConversation() async {
-    final response = await _dio.post('/api/v1/conversation');
-    handleResponse<void>(response);
+  Future<List<UserConversationDto>> getConversations() async {
+    final response = await _dio.get('/api/v1/conversation');
+    if (response.data is List) {
+        return (response.data as List)
+            .map((item) => UserConversationDto.fromJson(item as Map<String, dynamic>))
+            .toList();
+    } else {
+        throw Exception('Unexpected response format from the server.');
+    }
+  }
+
+  Future<int> startConversation(StartConversationDto dto) async {
+    final response =
+        await _dio.post('/api/v1/conversation', data: dto.toJson());
+    final conversation = handleResponse<UserConversationDto>(
+        response, (json) => UserConversationDto.fromJson(json));
+
+    return conversation!.id;
   }
 
   Future<bool> canStartConversation() async {
@@ -156,12 +167,13 @@ class ApiService {
 
   Future<List<UserConversationMessageDto>> getMessages(String id) async {
     final response = await _dio.get('/api/v1/conversation/$id/messages');
-    final result = handleResponse<List<UserConversationMessageDto>>(
-        response,
-        (json) => (json as List)
-            .map((item) => UserConversationMessageDto.fromJson(item))
-            .toList());
-    return result ?? [];
+    if (response.data is List) {
+        return (response.data as List)
+            .map((item) => UserConversationMessageDto.fromJson(item as Map<String, dynamic>))
+            .toList();
+    } else {
+        throw Exception('Unexpected response format from the server.');
+    }
   }
 
   Future<void> sendMessage(String id, SendMessageDto dto) async {

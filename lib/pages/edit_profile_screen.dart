@@ -2,6 +2,7 @@ import 'package:doctive_sympthon_checker/constants/colors.dart';
 import 'package:doctive_sympthon_checker/models/user_dto.dart';
 import 'package:doctive_sympthon_checker/models/user_update_dto.dart';
 import 'package:doctive_sympthon_checker/pages/profile_screen.dart';
+import 'package:doctive_sympthon_checker/widgets/bordered_text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
@@ -105,73 +106,40 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     child: Column(
                       children: <Widget>[
                         const SizedBox(height: 30),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: TextFormField(
-                            controller: _firstNameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Firstname',
-                              border: InputBorder.none,
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your firstname';
-                              }
-                              return null;
-                            },
-                          ),
+                        BorderedTextField(
+                          label: 'Firstname',
+                          controller: _firstNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your firstname';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 30),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: TextFormField(
-                            controller: _lastNameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Lastname',
-                              border: InputBorder.none,
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your lastname';
-                              }
-                              return null;
-                            },
-                          ),
+                        BorderedTextField(
+                          label: 'Lastname',
+                          controller: _lastNameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your lastname';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 30),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: TextFormField(
-                            controller: _emailController,
-                            decoration: const InputDecoration(
-                              labelText: 'Email',
-                              border: InputBorder.none,
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
-                            ),
-                            validator: (value) {
-                              RegExp regex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter your email';
-                              } else if (!regex.hasMatch(value)) {
-                                return 'Please enter a valid email';
-                              }
-                              return null;
-                            },
-                          ),
+                        BorderedTextField(
+                          label: 'Email',
+                          controller: _emailController,
+                          validator: (value) {
+                            RegExp regex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            } else if (!regex.hasMatch(value)) {
+                              return 'Please enter a valid email';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 30),
                         ElevatedButton(

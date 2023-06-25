@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:doctive_sympthon_checker/widgets/bordered_text_field.dart';
 
 class RestoreAccountScreen extends StatefulWidget {
   static const route = '/restore';
@@ -86,25 +87,9 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
                 children: [
                   for (var j = 0; j < 4; j++) ...[
                     const SizedBox(height: 30),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextFormField(
-                        controller: _controllers[i * 4 + j],
-                        decoration: InputDecoration(
-                          labelText: 'Word ${i * 4 + j + 1}',
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter the word';
-                          }
-                          return null;
-                        },
-                      ),
+                    BorderedTextField(
+                      label: '${i * 4 + j + 1}. word',
+                      controller: _controllers[i * 4 + j],
                     ),
                   ],
                   const SizedBox(height: 30),

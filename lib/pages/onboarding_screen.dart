@@ -4,6 +4,8 @@ import 'package:doctive_sympthon_checker/models/register_user_dto.dart';
 import 'package:doctive_sympthon_checker/pages/dashboard_screen.dart';
 import 'package:doctive_sympthon_checker/services/crypto_service.dart';
 import 'package:doctive_sympthon_checker/services/user_service.dart';
+import 'package:doctive_sympthon_checker/services/utils_service.dart';
+import 'package:doctive_sympthon_checker/widgets/bordered_text_field.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -20,6 +22,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     with SingleTickerProviderStateMixin {
   final _crypto = resolver<CryptoService>();
   final _user = resolver<UserService>();
+  final _utils = resolver<UtilsService>();
 
   AnimationController? _animationController;
   Animation<double>? _animation;
@@ -35,6 +38,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
   };
   late String _mnemonic;
   late List<String> _mnemonicWords = [];
+  late List<int> _mnemonicWordTestIndexes = [];
   final _formKey = GlobalKey<FormState>();
   Future<void>? _submitFuture;
 
@@ -57,6 +61,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
     setState(() {
       _mnemonic = _crypto.generateMnemonic();
       _mnemonicWords = _mnemonic.split(' ');
+      _mnemonicWordTestIndexes = _utils.generateUniqueRandomNumbers(3, 12);
     });
   }
 
@@ -141,70 +146,40 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
           child: Column(
             children: [
               const SizedBox(height: 30),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextFormField(
-                  controller: _firstNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Firstname',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your first name';
-                    }
-                    return null;
-                  },
-                ),
+              BorderedTextField(
+                label: 'Firstname',
+                controller: _firstNameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your firstname';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 30),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextFormField(
-                  controller: _lastNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Lastname',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your last name';
-                    }
-                    return null;
-                  },
-                ),
+              BorderedTextField(
+                label: 'Lastname',
+                controller: _lastNameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your lastname';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 30),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  ),
-                  validator: (value) {
-                    RegExp regex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!regex.hasMatch(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
+              BorderedTextField(
+                label: 'Email',
+                controller: _emailController,
+                validator: (value) {
+                  RegExp regex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  } else if (!regex.hasMatch(value)) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 30),
               ElevatedButton(
@@ -291,48 +266,17 @@ class _OnBoardingScreenState extends State<OnBoardingScreen>
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 30),
-            Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextFormField(
-                  controller: _mnemonicVerificationControllers[0],
-                  decoration: const InputDecoration(
-                    labelText: '1st word',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+            ..._mnemonicWordTestIndexes.asMap().entries.map(
+                  (x) => Column(
+                    children: [
+                      const SizedBox(height: 30),
+                      BorderedTextField(
+                        label: '${x.value + 1}. word',
+                        controller: _mnemonicVerificationControllers[x.key]!,
+                      ),
+                    ],
                   ),
-                )),
-            const SizedBox(height: 30),
-            Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
                 ),
-                child: TextFormField(
-                  controller: _mnemonicVerificationControllers[1],
-                  decoration: const InputDecoration(
-                    labelText: '5th word',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                  ),
-                )),
-            const SizedBox(height: 30),
-            Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextFormField(
-                  controller: _mnemonicVerificationControllers[2],
-                  decoration: const InputDecoration(
-                    labelText: '9th word',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
-                  ),
-                )),
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: _onSubmitPressed,

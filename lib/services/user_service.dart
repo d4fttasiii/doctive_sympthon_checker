@@ -1,6 +1,8 @@
 import 'package:doctive_sympthon_checker/main.dart';
 import 'package:doctive_sympthon_checker/models/register_user_dto.dart';
 import 'package:doctive_sympthon_checker/models/sign_in_dto.dart';
+import 'package:doctive_sympthon_checker/models/start_conversation.dart';
+import 'package:doctive_sympthon_checker/models/user_conversation_dto.dart';
 import 'package:doctive_sympthon_checker/models/user_dto.dart';
 import 'package:doctive_sympthon_checker/models/user_personal_information.dart';
 import 'package:doctive_sympthon_checker/models/user_update_dto.dart';
@@ -9,6 +11,7 @@ import 'package:doctive_sympthon_checker/services/api_service.dart';
 import 'package:doctive_sympthon_checker/services/crypto_service.dart';
 import 'package:doctive_sympthon_checker/services/local_auth_service.dart';
 import 'package:doctive_sympthon_checker/services/secret_service.dart';
+import 'package:web_socket_channel/io.dart';
 
 class UserService {
   final _api = resolver<ApiService>();
@@ -112,5 +115,18 @@ class UserService {
       token: token,
       signature: signature,
     ));
+  }
+
+  Future<List<UserConversationDto>> getConversations() async {
+    final conversations = await _api.getConversations();
+    return conversations;
+  }
+
+  Future<bool> canStartConversation() async {
+    return await _api.canStartConversation();
+  }
+
+  Future<int> startConversation(String topic) async {
+    return await _api.startConversation(StartConversationDto(topic: topic));
   }
 }

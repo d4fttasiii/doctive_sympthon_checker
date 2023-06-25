@@ -13,11 +13,13 @@ import 'package:doctive_sympthon_checker/pages/restore_account_screen.dart';
 import 'package:doctive_sympthon_checker/pages/settings_screen.dart';
 import 'package:doctive_sympthon_checker/pages/show_recovery_phrase.dart';
 import 'package:doctive_sympthon_checker/pages/splash_screen.dart';
+import 'package:doctive_sympthon_checker/pages/start_conversation_screen.dart';
 import 'package:doctive_sympthon_checker/services/api_service.dart';
 import 'package:doctive_sympthon_checker/services/crypto_service.dart';
 import 'package:doctive_sympthon_checker/services/local_auth_service.dart';
 import 'package:doctive_sympthon_checker/services/secret_service.dart';
 import 'package:doctive_sympthon_checker/services/user_service.dart';
+import 'package:doctive_sympthon_checker/services/utils_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get_it/get_it.dart';
@@ -30,6 +32,7 @@ GetIt resolver = GetIt.instance;
 // Setting up DI
 //
 void setup() {
+  resolver.registerSingleton<UtilsService>(UtilsService());
   resolver.registerSingleton<SecretService>(SecretService());
   resolver.registerSingleton<CryptoService>(CryptoService());
   resolver.registerSingleton<LocalAuthService>(LocalAuthService());
@@ -82,6 +85,7 @@ class MyApp extends StatelessWidget {
         ConversationScreen.route: (context) => ConversationScreen(),
         SettingsScreen.route: (context) => SettingsScreen(),
         ShowRecoveryPhrase.route: (context) => ShowRecoveryPhrase(),
+        StartConversation.route:(context) => StartConversation(),
       },
     );
   }
